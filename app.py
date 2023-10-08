@@ -53,16 +53,17 @@ def get_current_date_time():
 @app.route('/')
 def home():  # put application's code here
     global sensor_data
-    sensor_data.insert(0, {
-        "sensor_id": "boyan_sensor_1",
-        "temperature": temperature,
-        "humidity": humidity,
-        "brightness": currentLightLevel,
-        "time_stamp": get_current_date_time(),
+
+    sensor_data.append({
+        'sensor_id': 'boyan_sensor_1',
+        'temperature': temperature,
+        'humidity': humidity,
+        'brightness': currentLightLevel,
+        'time_stamp': get_current_date_time(),
     })
 
-    if len(sensor_data) >= 10:
-        sensor_data.pop()
+    if len(sensor_data) >= 16:
+        sensor_data.pop(0)
 
     return render_template('home.html', sensor_data=sensor_data)
 

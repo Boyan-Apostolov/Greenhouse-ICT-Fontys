@@ -83,3 +83,10 @@ p{
 .fa-temperature-high{
     color: coral;
 }
+
+.chart-holder{
+    background: whitesmoke;
+    margin-top: 25px;
+    width: 45vw;
+    margin: 25px auto;
+}

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Home page</title>
     <link rel="stylesheet" type="text/css" href="../static/home.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../static/home.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body>
@@ -36,5 +38,15 @@
             </div>
         {% endfor %}
     </div>
+
+<div class="chart-holder">
+  <canvas id="myChart"></canvas>
+</div>
 </body>
+<script>
+    var myData = JSON.parse(
+        ("{{ sensor_data }}").replaceAll("&#39;", "\"")
+    );
+    window.myData = myData;
+</script>
 </html>
