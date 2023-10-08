@@ -1,7 +1,7 @@
 import time
 import sys
 from fhict_cb_01.custom_telemetrix import CustomTelemetrix
-from flask import Flask
+from flask import Flask, render_template
 from datetime import datetime
 
 # Global Dependency setup
@@ -64,7 +64,7 @@ def home():  # put application's code here
     if len(sensor_data) >= 10:
         sensor_data.pop()
 
-    return sensor_data
+    return render_template('home.html', sensor_data=sensor_data)
 
 
 if __name__ == '__main__':

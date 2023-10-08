@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <link rel="stylesheet" type="text/css" href="../static/home.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+<body>
+    <div class="data_bubbles_holder">
+        {% for data in sensor_data %}
+            <div class="data_bubble">
+                <div class="top-part">
+                    <p class="date-time-holder">{{ data["time_stamp"].split(" ")[0] }}</p>
+                </div>
+                <div class="bottom-part">
+                    <div class="temperature-div">
+                        <div class="top-half">
+                            <p class="value">{{ data["temperature"] }}°C</p>
+
+                            <i class="fa-solid fa-temperature-high"></i>
+                        </div>
+
+                        <p class="text">Temperature</p>
+                    </div>
+                    <div class="humidity-div">
+                        <div class="top-half">
+                             <p class="value">{{ data["humidity"] }}%</p>
+
+                             <i class="fa-solid fa-droplet"></i>
+                        </div>
+
+                        <p class="text">Humidity</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
