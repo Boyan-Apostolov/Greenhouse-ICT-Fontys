@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <link rel="stylesheet" type="text/css" href="../static/home.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../static/home.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+</head>
+<body>
+{% if sensor_data == [] %}
+    <h1 style="color: white">No data yet...</h1>
+{% else %}
+    <div class="data_bubbles_holder">
+
+        {% for data in sortedData %}
+            {% if loop.index == 1 %}
+                <div class="data_bubble">
+                    <div class="top-part">
+                        <p class="date-time-holder">{{ data["time_stamp"].split(" ")[0] }}</p>
+                    </div>
+                    <div class="bottom-part">
+                        <div class="temperature-div">
+                            <div class="top-half">
+                                <p class="value">{{ data["temperature"] }}°C</p>
+
+                                <i class="fa-solid fa-temperature-high"></i>
+                            </div>
+
+                            <p class="text">Temperature</p>
+                        </div>
+                        <div class="humidity-div">
+                            <div class="top-half">
+                                <p class="value">{{ data["humidity"] }}%</p>
+
+                                <i class="fa-solid fa-droplet"></i>
+                            </div>
+
+                            <p class="text">Humidity</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div>
+
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>Brightness</th>
+        </tr>
+        {% for data in sortedData %}
+            <tr>
+                <td>{{ data["time_stamp"].split(" ")[0] }}</td>
+                <td>{{ data["temperature"] }}</td>
+                <td>{{ data["humidity"] }}</td>
+                <td>{{ data["brightness"] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class="chart-holder">
+        <canvas id="myChart"></canvas>
+    </div>
+
+
+{% endif %}
+
+</div>
+</body>
+<script>
+    var myData = JSON.parse(
+        ("{{ sensor_data }}").replaceAll("&#39;", "\"")
+    );
+    window.myData = myData;
+</script>
+</html>
