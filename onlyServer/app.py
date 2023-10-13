@@ -28,6 +28,7 @@ def receive_data():
 
     return ""
 
+
 # Flask app
 @app.route('/')
 def home():  # put application's code here

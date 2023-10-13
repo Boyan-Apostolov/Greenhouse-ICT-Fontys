@@ -86,7 +86,6 @@ p{
 
 .chart-holder{
     background: whitesmoke;
-    margin-top: 25px;
     width: 45vw;
     margin: 25px auto;
 }
@@ -94,7 +93,7 @@ p{
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  width: 70%;
     background: whitesmoke;
     margin: 25px auto;
 }
