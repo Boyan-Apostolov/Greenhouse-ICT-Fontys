@@ -1,5 +1,3 @@
-import time
-import sys
 from flask import Flask, render_template, request
 from datetime import datetime
 
@@ -36,56 +34,68 @@ def receive_data():
 def getSensorData(sensor_id):
     global sensor_data
 
+    filtered_data = []
     if sensor_id:
-        # filter by sensor data
-        print('test')
+        filtered_data = [data for data in sensor_data if data["sensor_id"] == sensor_id]
+    else:
+        filtered_data = sensor_data
 
     # We show only the last 16 elements
-    return list(reversed(sensor_data))[:16]
+    return list(reversed(filtered_data))[:16]
 
 
-# Flask app
+def get_view_model(sensor_id):
+    global sensor_data
+    sorted_data = getSensorData(sensor_id)
+
+    view_model = {}
+
+    if sorted_data:
+        view_model = {
+            "original_data": sensor_data,
+            "sorted_data": sorted_data,
+            "sensor_ids": list(set([data["sensor_id"] for data in sensor_data])),
+            "temperature":
+                {
+                    "average": round(
+                        sum(data["temperature"] for data in sensor_data) / len(sensor_data), 2
+                    ),
+                    "min": round(
+                        min(data["temperature"] for data in sensor_data), 2
+                    ),
+                    "max": round(
+                        max(data["temperature"] for data in sensor_data), 2
+                    )
+                },
+            "humidity":
+                {
+                    "average": round(
+                        sum(data["humidity"] for data in sensor_data) / len(sensor_data), 2
+                    ),
+                    "min": round(
+                        min(data["humidity"] for data in sensor_data), 2
+                    ),
+                    "max": round(
+                        max(data["humidity"] for data in sensor_data), 2
+                    )
+                }
+        }
+
+    return view_model
+
+
 @app.route('/')
 def home():  # put application's code here
-    global sensor_data
+    view_model = get_view_model(None)
 
-    sortedData = getSensorData(None)
-
-    view_model = {
-        "original_data": sensor_data,
-        "sorted_data": sortedData,
-        "average_temp": 0,
-        "temperature":
-            {
-                "average": round(
-                    sum(data["temperature"] for data in sensor_data) / len(sensor_data), 2
-                ),
-                "min": round(
-                    min(data["temperature"] for data in sensor_data), 2
-                ),
-                "max": round(
-                    max(data["temperature"] for data in sensor_data), 2
-                )
-            },
-        "humidity":
-            {
-                "average": round(
-                    sum(data["humidity"] for data in sensor_data) / len(sensor_data), 2
-                ),
-                "min": round(
-                    min(data["humidity"] for data in sensor_data), 2
-                ),
-                "max": round(
-                    max(data["humidity"] for data in sensor_data), 2
-                )
-            }
-    }
     return render_template('home.html', view_model=view_model)
 
 
 @app.route("/specific-sensor/<sensor_id>")
 def specific_sensor(sensor_id):
-    return "404"
+    view_model = get_view_model(sensor_id)
+
+    return render_template('home.html', view_model=view_model, specific_sensor_id=sensor_id)
 
 
 if __name__ == '__main__':

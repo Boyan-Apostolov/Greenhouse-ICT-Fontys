@@ -1,5 +1,5 @@
 body{
-    background: #535d6e;
+    background: #535d6e !important;
 }
 p{
     margin: 0;
@@ -130,4 +130,7 @@ tr:nth-child(even) {
 .summary-data{
     display: flex;
     justify-content: space-around;
+}
+.sensor_ids{
+    text-align: center;
 }
