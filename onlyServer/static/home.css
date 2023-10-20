@@ -93,9 +93,8 @@ p{
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 70%;
     background: whitesmoke;
-    margin: 25px auto;
+    flex-basis: 45%;
 }
 
 td, th {
@@ -106,4 +105,29 @@ td, th {
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+.table-graph{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 20px;
+
+}
+
+.summary{
+    flex-basis: 45%;
+}
+
+.centered{
+    text-align: center;
+}
+
+.white-text{
+    color: whitesmoke;
+}
+
+.summary-data{
+    display: flex;
+    justify-content: space-around;
 }

@@ -10,14 +10,18 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 </head>
 <body>
-{% if sensor_data == [] %}
-    <h1 style="color: white">No data yet...</h1>
+
+<h1 class="white-text centered">Showing data for all sensors</h1>
+
+{% if view_model.sorted_data == [] %}
+    <h1 class="white-text centered">No data yet...</h1>
 {% else %}
     <div class="data_bubbles_holder">
 
-        {% for data in sortedData %}
+        {% for data in view_model.sorted_data %}
             {% if loop.index == 1 %}
                 <div class="data_bubble">
+                <p class="centered">Latest received data:</p>
                     <div class="top-part">
                         <p class="date-time-holder">{{ data["time_stamp"].split(" ")[0] }}</p>
                     </div>
@@ -47,35 +51,53 @@
     </div>
     <div>
 
+    <div class="table-graph">
     <table>
         <tr>
             <th>Time</th>
             <th>Temperature</th>
             <th>Humidity</th>
             <th>Brightness</th>
+            <th>Sensor</th>
         </tr>
-        {% for data in sortedData %}
+        {% for data in view_model.original_data %}
             <tr>
                 <td>{{ data["time_stamp"].split(" ")[0] }}</td>
                 <td>{{ data["temperature"] }}</td>
                 <td>{{ data["humidity"] }}</td>
                 <td>{{ data["brightness"] }}</td>
+                <td>{{ data["sensor_id"] }}</td>
             </tr>
         {% endfor %}
     </table>
 
-    <div class="chart-holder">
-        <canvas id="myChart"></canvas>
+    <div class="summary">
+        <div class="summary-data">
+            <div class="temp-summary">
+                <h2 class="white-text centered">Temperature:</h2>
+                <h2 class="white-text centered">Average: {{ view_model.temperature.average }}</h2>
+                <h2 class="white-text centered">Max: {{ view_model.temperature.max }}</h2>
+                <h2 class="white-text centered">Min: {{ view_model.temperature.min }}</h2>
+            </div>
+            <div class="humidity-summary">
+                <h2 class="white-text centered">Humidity:</h2>
+                <h2 class="white-text centered">Average: {{ view_model.humidity.average }}</h2>
+                <h2 class="white-text centered">Max: {{ view_model.humidity.max }}</h2>
+                <h2 class="white-text centered">Min: {{ view_model.humidity.min }}</h2>            </div>
+        </div>
+
+        <div class="chart-holder">
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
-
-
+    </div>
 {% endif %}
 
 </div>
 </body>
 <script>
     var myData = JSON.parse(
-        ("{{ sensor_data }}").replaceAll("&#39;", "\"")
+        ("{{ view_model.original_data }}").replaceAll("&#39;", "\"")
     );
     window.myData = myData;
 </script>
